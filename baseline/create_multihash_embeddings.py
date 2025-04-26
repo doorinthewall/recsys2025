@@ -1,6 +1,9 @@
 import cityhash
-from baseline.aggregated_features_baseline import create_embeddings
+from baseline.aggregated_features_baseline import create_embeddings, save_embeddings
 import torch
+from pathlib import Path
+import sys, os
+
 
 def get_bin(ids, seed=42, n_bins=512):
   transform = lambda x: cityhash.CityHash64(f"p/{seed}/{x}") % n_bins
@@ -16,8 +19,15 @@ def create_multihash_embeddings(ids, seeds=[42, 666, 777, 4], n_bins=10):
   result = []
   for bin in bins:
     result += [one_hot_embed(bin, n_bins)] 
-  return torch.cat(result)
+  return ids, torch.cat(result)
 
 if __name__ == "__main__":
+
     relevant_ids = create_embeddings.load_relevant_clients_ids(Path("/home/recsys_dataset/unpacked_dataset/input"))
-    create_multihash_embeddings(relevant_ids)
+    client_ids, embeddings = create_multihash_embeddings(relevant_ids)
+
+    save_embeddings(
+        client_ids=client_ids,
+        embeddings=embeddings,
+        embeddings_dir=embeddings_dir,
+    )
