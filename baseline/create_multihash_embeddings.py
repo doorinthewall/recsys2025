@@ -14,12 +14,12 @@ def one_hot_embed(bins, n_bins=512):
   embeds.scatter_add_(1, bins.unsqueeze(1), torch.ones(bins.size(0), 1))
   return embeds
 
-def create_multihash_embeddings(ids, seeds=[42, 666, 777, 4], n_bins=10):
+def create_multihash_embeddings(ids, seeds=[42, 666, 777, 4], n_bins=512):
   bins = [get_bin(ids, seed, n_bins) for seed in seeds]
   result = []
   for bin in bins:
     result += [one_hot_embed(bin, n_bins)] 
-  return ids, torch.cat(result)
+  return ids, torch.cat(result, 1)
 
 if __name__ == "__main__":
 
