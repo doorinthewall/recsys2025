@@ -1,5 +1,5 @@
 import cityhash
-from baseline.aggregated_features_baseline import create_embeddings, save_embeddings
+from baseline.aggregated_features_baseline import create_embeddings
 import torch
 from pathlib import Path
 import sys, os
@@ -23,10 +23,12 @@ def create_multihash_embeddings(ids, seeds=[42, 666, 777, 4], n_bins=10):
 
 if __name__ == "__main__":
 
-    relevant_ids = create_embeddings.load_relevant_clients_ids(Path("/home/recsys_dataset/unpacked_dataset/input"))
+    relevant_ids = create_embeddings.load_relevant_clients_ids(Path("/content/dataset/input"))
     client_ids, embeddings = create_multihash_embeddings(relevant_ids)
+    embeddings_dir = "/content/dataset/output"
 
-    save_embeddings(
+
+    create_embeddings.save_embeddings(
         client_ids=client_ids,
         embeddings=embeddings,
         embeddings_dir=embeddings_dir,
