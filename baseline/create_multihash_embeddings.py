@@ -25,7 +25,7 @@ if __name__ == "__main__":
 
     relevant_ids = create_embeddings.load_relevant_clients_ids(Path("/content/dataset/input"))
     client_ids, embeddings = create_multihash_embeddings(relevant_ids)
-    embeddings_dir = "/content/dataset/output"
+    embeddings_dir = Path("/content/dataset/output")
 
 
     create_embeddings.save_embeddings(
