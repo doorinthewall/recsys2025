@@ -20,7 +20,7 @@ def create_multihash_embeddings(ids, seeds=[42, 666, 777, 4], n_bins=512):
   for bin in bins:
     result += [one_hot_embed(bin, n_bins)] 
   result = torch.cat(result, 1).to(torch.float16)
-  return ids,
+  return ids, result
 
 if __name__ == "__main__":
 
