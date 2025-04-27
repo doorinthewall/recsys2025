@@ -7,7 +7,7 @@ import sys, os
 
 def get_bin(ids, seed=42, n_bins=512):
   transform = lambda x: cityhash.CityHash64(f"p/{seed}/{x}") % n_bins
-  return torch.tensor(list(map(transform, ids)), dtype=torch.float16)
+  return torch.tensor(list(map(transform, ids)), dtype=int)
 
 def one_hot_embed(bins, n_bins=512):
   embeds = torch.zeros((bins.size(0), n_bins))
@@ -19,7 +19,8 @@ def create_multihash_embeddings(ids, seeds=[42, 666, 777, 4], n_bins=512):
   result = []
   for bin in bins:
     result += [one_hot_embed(bin, n_bins)] 
-  return ids, torch.cat(result, 1)
+  result = torch.cat(result, 1).to(torch.float16)
+  return ids,
 
 if __name__ == "__main__":
 
